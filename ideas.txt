@@ -11,6 +11,7 @@ Must Have
 Cool to do
 - Track/update points
 - Track attendance
+- List students who attended during the last session/day
 - Track badge completion
 - Give ratings to days to see performance? Give evaluations of knowledge?
 
