@@ -1,0 +1,24 @@
+Must Have
+
+- Student information (id, name, parent info, belt, points, completed games, etc...)
+- Notes
+
+- Add, delete and update new students
+- Add/delete notes
+
+- Accounts for all staff
+
+Cool to do
+- Track/update points
+- Track attendance
+- Track badge completion
+- Give ratings to days to see performance? Give evaluations of knowledge?
+
+How?
+
+- MERN stack project?
+- Use a DB to store information on a student and parent information and then wirte comments/notes about the student
+
+- Base the app on the old notes app, but give it an update and provide some more functionality more specific to Marda Loop
+- Use nicer CSS and other frameworks to make it look a little nicer
+- Make the interface more freindly
