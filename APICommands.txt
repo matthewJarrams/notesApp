@@ -1,0 +1,7 @@
+You can:
+- add and get belts
+- add a students (will add update and deletes later)
+- get a student with all notes and author of notes
+- login and register
+- only allowed to do things if registered (JWT)
+- delete made notes (will also delete from student list in DB)
