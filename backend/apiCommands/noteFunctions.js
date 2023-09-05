@@ -2,12 +2,20 @@ const db = require("../Models/DB");
 const mongoose = require("mongoose");
 const { response } = require("express");
 const { stringify } = require("querystring");
+const { all } = require("../Routes/noteRoutes");
 // const moment = require("moment");
 
 const getBelts = async (req, res) => {
-    const allBelts =  await Belts.Belt.find({})
+    const allBelts =  await db.Belt.find({})
     res.status(200).json(allBelts);
     console.log(JSON.stringify(allBelts))
+
+};
+
+const getStudents = async (req, res) => {
+    const allStudents =  await db.Student.find({})
+    res.status(200).json(allStudents);
+    // console.log(JSON.stringify(allStudents))
 
 };
 
@@ -74,7 +82,7 @@ const getStudent = async (req,res) => {
           .populate("Notes")
           .populate({ path: "Notes", populate: "senseiID" })
 
-        console.log(student.Notes[0].senseiID.name)
+        // console.log(student.Notes[0].senseiID.name)
   
         res.status(200).json(student);
       } else {
@@ -126,6 +134,7 @@ module.exports = {
     addStudent,
     makeNote,
     getStudent,
-    deleteNote
+    deleteNote,
+    getStudents
     
   };
