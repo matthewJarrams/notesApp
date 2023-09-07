@@ -40,15 +40,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div>
-        {notes && notes.map((note) => (
-          <li><a key={note._id} target="blank" onClick={() => handleClick(note)}>{note.StudentName}</a></li>
-          
-        )
-        
-      
-        
-        )}
+
       </div>
       <div>
       {notes && notes.map((note) => (
