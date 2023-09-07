@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react"
 import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+
 
 
 const Home = () => {
 
   const [notes, setNotes] = useState(null)
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -30,6 +34,8 @@ const Home = () => {
       {
         console.log(stuJSON)
       }
+    navigate('/studentProfile');
+
   };
 
   return (
@@ -37,13 +43,27 @@ const Home = () => {
       <div>
         {notes && notes.map((note) => (
           <li><a key={note._id} target="blank" onClick={() => handleClick(note)}>{note.StudentName}</a></li>
+          
         )
+        
       
         
         )}
       </div>
+      <div>
+      {notes && notes.map((note) => (
+          
+      <Link
+              to={{ pathname: `/studentProfile/${note._id}`, state: {data : note}}}
+      >
+            note._id
+        </Link>
+      ))
+      }
+      </div>
     </div>
   )
+  
 }
 
 export default Home
