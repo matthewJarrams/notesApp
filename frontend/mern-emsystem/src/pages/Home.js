@@ -40,19 +40,41 @@ const Home = () => {
 
   return (
       <div className="flex justify-center items-center">
-        <ol className="divide-y divide-gray-100 w-96 " >
+        {/* <ol className="divide-y divide-gray-100 w-96 " >
           {notes && notes.map((note) => (
             <li className="w-full border-b-2 border-neutral-100 border-opacity-100 py-4 dark:border-opacity-50 text-left"><a key={note._id} target="blank" onClick={() => handleClick(note)} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm " >{note.StudentName}</a>
               <div className="py-2 px-4 text-right"> View Notes </div>
-              <Link
-              to={{ pathname: `/studentProfile/${note._id}`, state: {data : note}}}
-      >
+              <Link to={{ pathname: `/studentProfile/${note._id}`, state: {data : note}}}>
             {note._id}
         </Link>
             </li>
           )
           )}
-        </ol>
+        </ol> */}
+
+        <table className="table-auto">
+          <thead>
+            <tr>
+              <th className="px-4 py-2">Student Name</th>
+              <th className="px-4 py-2">View Notes</th>
+              <th className="px-4 py-2">Manage</th>
+            </tr>
+          </thead>
+          <tbody>
+            {notes && notes.map((note) => (
+              <tr>
+                <td className="border px-4 py-2">{note.StudentName}</td>
+                <Link to={{ pathname: `/studentProfile/${note._id}`, state: {data : note}}}>
+                  <td className="border px-4 py-2"><a key={note._id} target="blank"  className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm " >View Notes</a></td>
+                </Link>
+                <td className="border px-4 py-2"><a className="bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm ">Manage</a></td>
+              </tr>
+            )
+            )}
+          </tbody>
+        </table>
+
+
       <div>
         {/* {notes && notes.map((note) => (
           <li><a key={note._id} target="blank" onClick={() => handleClick(note)}>{note.StudentName}</a></li>
