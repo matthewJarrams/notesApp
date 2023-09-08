@@ -53,10 +53,15 @@ const makeNote = async (req, res) => {
     //retrieve info from inputs in JSON format
     const {comment, game } = req.body;
     console.log(comment, game)
+    console.log(req.body)
 
   //get author from token
-    let senseiID = req.user.id;
-    console.log((req.user.id))
+/*auth stuff PUT BACK WHEN DONE!!! */  
+  // let senseiID = req.user.id;
+    // console.log((req.user.id))
+
+
+    let senseiID = null;
 
   //make comment and update post to attach it to the comment
   try {
@@ -69,6 +74,7 @@ const makeNote = async (req, res) => {
     await student.save();
     res.status(200).json(student);
   } catch (error) {
+    console.log(error.message)
     res.status(400).json({ error: error.message });
   }
 };

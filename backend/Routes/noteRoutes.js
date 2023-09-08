@@ -22,7 +22,7 @@ router.post('/addBelt', verifyJWT, addBelt)
 
 router.post('/addStudent', verifyJWT, addStudent);
 
-router.post('/makeNote/:studentID', verifyJWT, makeNote)  
+router.post('/makeNote/:studentID', makeNote)  
 
 router.get('/:studentID', getStudent)
 

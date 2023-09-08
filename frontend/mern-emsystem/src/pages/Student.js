@@ -9,6 +9,9 @@ const Student = () => {
     // const { id } = props.match.params;
     // console.log("The student", props.stuID)
     const [student, setStudent] = useState(null)
+    const [game, setGame] = useState('')
+    const [comment, setComment] = useState('')
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -34,6 +37,33 @@ const Student = () => {
 
     }, [])
 
+    const handleSubmit = async (e) => 
+    {
+        e.preventDefault();
+        console.log(game, comment)
+        const note = {comment, game}
+
+        const response = await fetch(`http://localhost:5000/notes/makeNote/${id}`, {
+            method: 'POST',
+            body: JSON.stringify(note),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          const json = await response.json()
+      
+          if (!response.ok) {
+            console.log(response.error)
+          }
+          if (response.ok) {
+            setGame('')
+            setComment('')
+            console.log('new note added:', json)
+          }
+      
+        }
+      
+    
 
 
   
@@ -42,37 +72,29 @@ const Student = () => {
       <div>
         <p>{student && student.StudentName}</p>
       </div>
-      <div className="flex justify-center items-center">
-        {/* {student && student.Notes.map((note) => (
+      <form onSubmit={handleSubmit}>
+        <br></br>
+        <select name="game" id="game" onChange={(choice) => setGame(choice.target.value)}>
+            <option value="Candy Sort">Candy Sort</option>
+            <option value="Rain Catcher Part 3430">Rain Catcher Part 3430</option>
+            <option value="Dropping Bombs">Dropping Bombs</option>
+            <option value="Level 4">Level 4</option>
+        </select>
+        <br></br><br></br>
+        <input type="text" placeholder="Write note here..." onChange={(text) => setComment(text.target.value)}/>
+        <br></br><br></br>
+        <input type="submit" value="Add Note"/>
+        <br></br><br></br>
+      </form>
+      <div>
+        {student && student.Notes.map((note) => (
           <li><a key={note._id} target="blank">{note.comment}</a></li>
           
         )
         
       
         
-        )} */}
-
-        <table className="table-auto">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Note</th>
-              <th className="px-4 py-2">Sensei</th>
-              <th className="px-4 py-2">Date</th>
-              <th className="px-4 py-2">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {student && student.Notes.map((note) => (
-              <tr>
-                <td className="border px-4 py-2">{note.comment}</td>
-                <td className="border px-4 py-2">{note.senseiID.name}</td>
-                <td className="border px-4 py-2">{note.date}</td>
-                <td className="border px-4 py-2"><button className="bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm " >Delete</button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
+        )}
       </div>
     </div>
   )
