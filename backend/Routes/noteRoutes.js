@@ -14,17 +14,17 @@ const router = express.Router()
 
 
 // //test route for getting user who is logged in
-router.get('/getBelts', getBelts)
+router.get('/getBelts',verifyJWT, getBelts);
 
-router.get('/allStudents',getStudents)
+router.get('/allStudents', verifyJWT, getStudents);
 
-router.post('/addBelt', verifyJWT, addBelt)
+router.post('/addBelt', verifyJWT, addBelt);
 
 router.post('/addStudent', verifyJWT, addStudent);
 
-router.post('/makeNote/:studentID', makeNote)  
+router.post('/makeNote/:studentID', verifyJWT, makeNote)  
 
-router.get('/:studentID', getStudent)
+router.get('/:studentID', verifyJWT, getStudent)
 
 router.delete("/deleteNote/:stuID/:id/", verifyJWT, deleteNote)
 

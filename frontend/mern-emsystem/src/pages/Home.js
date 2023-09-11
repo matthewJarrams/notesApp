@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../context/authContext";
 
 
 
@@ -8,11 +9,19 @@ const Home = () => {
 
   const [notes, setNotes] = useState(null)
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
+  console.log(auth)
+  const data = JSON.parse(localStorage.getItem("userData"));
+  console.log(data)
 
-
+  // while(auth.token == false);
   useEffect(() => {
     const fetchNotes = async () => {
-      const response = await fetch(`http://localhost:5000/notes/allStudents`)
+      const response = await fetch(`http://localhost:5000/notes/allStudents`, {
+        headers: {
+          "x-access-token": data.token,
+        }
+      });
       const json = await response.json();
 
       if(response.ok)
@@ -28,7 +37,11 @@ const Home = () => {
     // e.preventDefault();
     console.log(item._id, "You were clicked!")
 
-    const getStudentTest =  await fetch(`http://localhost:5000/notes/${item._id}`)
+    const getStudentTest =  await fetch(`http://localhost:5000/notes/${item._id}`, {
+      headers: {
+        "x-access-token": auth.token,
+      }
+    });
     const stuJSON = await getStudentTest.json();
       if(getStudentTest.ok)
       {

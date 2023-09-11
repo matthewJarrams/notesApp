@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState,useContext } from "react"
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
+
 
 
 
@@ -14,6 +16,8 @@ const Student = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const auth = useContext(AuthContext);
+    console.log(auth)
 
     console.log(location.pathname)
 
@@ -23,7 +27,11 @@ const Student = () => {
 
     useEffect(() => {
         const fetchStudent = async () => {
-        const response = await fetch(`http://localhost:5000/notes/${id}`)
+        const response = await fetch(`http://localhost:5000/notes/${id}`, {
+            headers: {
+              "x-access-token": auth.token,
+            }
+          });
         const json = await response.json();
 
         if(response.ok)
@@ -47,7 +55,8 @@ const Student = () => {
             method: 'POST',
             body: JSON.stringify(note),
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              "x-access-token": auth.token
             }
           })
           const json = await response.json()
