@@ -60,7 +60,7 @@ const Home = () => {
               <Link
               to={{ pathname: `/studentProfile/${note._id}`, state: {data : note}}}
       >
-            {note._id}
+            {note.StudentName}
         </Link>
             </li>
           )
