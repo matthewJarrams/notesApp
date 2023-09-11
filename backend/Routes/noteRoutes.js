@@ -26,7 +26,7 @@ router.post('/makeNote/:studentID', verifyJWT, makeNote)
 
 router.get('/:studentID', verifyJWT, getStudent)
 
-router.delete("/deleteNote/:stuID/:id/", verifyJWT, deleteNote)
+router.delete("/deleteNote/:stuID/:id", verifyJWT, deleteNote)
 
 
 

@@ -72,6 +72,19 @@ const Student = () => {
       
         }
       
+      const deleteNote = async (student, note) => {
+        console.log(student);
+        console.log(note);
+        const response = await fetch(`http://localhost:5000/notes/deleteNote/${student._id}/${note._id}/`, {
+          method: 'DELETE',
+          headers: {
+            "x-access-token": auth.token
+          }
+        })
+        
+        
+      }
+
     
 
 
@@ -97,7 +110,10 @@ const Student = () => {
       </form>
       <div>
         {student && student.Notes.map((note) => (
-          <li><a key={note._id} target="blank">{note.comment}</a></li>
+          <li>
+            <a key={note._id} target="blank">{note.comment}</a>
+            <button onClick={() => deleteNote(student, note)} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm ">Delete</button>
+          </li>
           
         )
         
