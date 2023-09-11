@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import Search from './pages/Search';
 import Student from './pages/Student';
+import Login from './pages/Login';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 
@@ -23,6 +24,10 @@ function App() {
             <Route
               path="/studentProfile/:id"
               element = {<Student />}
+            />
+            <Route 
+              path="/login" 
+              element={<Login />} 
             />
             
           </Routes>

@@ -60,8 +60,10 @@ const makeNote = async (req, res) => {
   // let senseiID = req.user.id;
     // console.log((req.user.id))
 
-
-    let senseiID = null;
+    //hard coded object id
+    var id = new mongoose.Types.ObjectId('64f4e5eefced4ffc4a21de79');
+    console.log(id)
+    let senseiID = id;
 
   //make comment and update post to attach it to the comment
   try {
