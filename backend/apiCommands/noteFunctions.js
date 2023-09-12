@@ -8,7 +8,7 @@ const { all } = require("../Routes/noteRoutes");
 const getBelts = async (req, res) => {
     const allBelts =  await db.Belt.find({})
     res.status(200).json(allBelts);
-    console.log(JSON.stringify(allBelts))
+    // console.log(JSON.stringify(allBelts))
 
 };
 
@@ -67,13 +67,13 @@ const makeNote = async (req, res) => {
 
   //get author from token
 /*auth stuff PUT BACK WHEN DONE!!! */  
-  // let senseiID = req.user.id;
-    // console.log((req.user.id))
+  let senseiID = req.user.id;
+    console.log((req.user.id))
 
     //hard coded object id
-    var id = new mongoose.Types.ObjectId('64f4e5eefced4ffc4a21de79');
-    console.log(id)
-    let senseiID = id;
+    // var id = new mongoose.Types.ObjectId('64f4e5eefced4ffc4a21de79');
+    // console.log(id)
+    // let senseiID = id;
 
   //make comment and update post to attach it to the comment
   try {
@@ -146,6 +146,29 @@ const getStudent = async (req,res) => {
 
   };
 
+    const updateStudent = async (req, res) => 
+    {
+        const { id } = req.params;
+        // console.log(id);
+        console.log(req.body)
+        const studenttoUpdate = await db.Student.findOneAndUpdate(
+            { _id: id },
+            {
+              ...req.body,
+            }
+          );
+      
+          if (!studenttoUpdate) {
+            return res.status(400).json({ error: "No such Student" });
+          }
+      
+          const student = await db.Student.findOne({ _id: id }).populate("Notes");
+      
+          res.status(200).json(student);
+    }
+    
+
+
 
 module.exports = {
     getBelts,
@@ -154,6 +177,7 @@ module.exports = {
     makeNote,
     getStudent,
     deleteNote,
-    getStudents
+    getStudents,
+    updateStudent
     
   };

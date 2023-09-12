@@ -13,7 +13,8 @@ const StudentAdmin = () => {
     const [student, setStudent] = useState(null);
     const [belt, setBelt] = useState(null);
     const [belts, setBelts] = useState(null);
-    const [points, setPoints] = useState(null);
+    const [Points, setPoints] = useState(null);
+    
    
     const navigate = useNavigate();
     const location = useLocation();
@@ -43,8 +44,10 @@ const StudentAdmin = () => {
 
         if(response.ok)
         {
-            setStudent(json)
-            console.log(json)
+            setStudent(json);
+            console.log(json);
+            setPoints(json.Points);
+            setBelt(json.beltId);
 
         }
         }
@@ -78,11 +81,40 @@ const StudentAdmin = () => {
 
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(belt, points)
-    }
+        console.log(belt, Points);
+        const beltId = belt
+        const data = {
+            beltId,
+            Points,
+          };
+          console.log(data);
+          try {
+              let res = await fetch(`http://localhost:5000/notes/updateStudent/${id}`, {
+                method: "PATCH",
+                body: JSON.stringify(data),
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-access-token": auth.token,
+                },
+              });
+              let resJson = await res.json();
+              if (res.status === 200) {
+                console.log("Success");
+                console.log(resJson);
+                window.location.reload();
+
+              } else {
+                console.log("Fail");
+              }
+            } catch (err) {
+              console.log(err);
+            }
+          }
+        
+    
 
     
       
@@ -107,10 +139,10 @@ const StudentAdmin = () => {
             <option value="Dropping Bombs">Dropping Bombs</option>
             <option value="Level 4">Level 4</option> */}
             <option value="-- Update Belt --">-- Update Belt --</option>
-            {belts && belts.map((belt) => <option value={belt}>{belt.Colour}</option>)}
+            {belts && belts.map((belt) => <option value={belt._id}>{belt.Colour}</option>)}
         </select>
         <br></br><br></br>
-        <input type="number" placeholder={"Update Points"} onChange={(points) => setPoints(points.target.value)}/>
+        <input type="number" placeholder={"Update Points"} onChange={(Points) => setPoints(Points.target.value)}/>
         <br></br><br></br>
         <input type="submit" value="Submit Changes"/>
         <br></br><br></br>
