@@ -32,16 +32,26 @@ const addBelt = async (req, res) => {
 
 
 const addStudent = async (req,res) => {
-  let { StudentName, OldStudentID, belt, Curriculum, Points } = req.body;
+    let { StudentName, OldStudentID, belt, Curriculum, Points } = req.body;
+    let beltId;
+    if(Curriculum == "GDP")
+    {
+        //white GDP
+        beltId = new mongoose.Types.ObjectId('64ff9e6d218e7463f5f9476e');   
+    }
+    else
+    {
+        //white impact
+        beltId = new mongoose.Types.ObjectId('64f4107008601a2ce11c7671');   
+    }
+    
+    try {
+        const newStudent = await db.Student.create({ StudentName, OldStudentID, belt, Curriculum, Points, beltId });
 
-
-  try {
-    const newStudent = await db.Student.create({ StudentName, OldStudentID, belt, Curriculum, Points });
-
-    res.status(200).json(newStudent);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+        res.status(200).json(newStudent);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
 };
 
 const makeNote = async (req, res) => {
@@ -89,6 +99,7 @@ const getStudent = async (req,res) => {
         const student = await db.Student.findById({ _id: studentID })
           .populate("Notes")
           .populate({ path: "Notes", populate: "senseiID" })
+          .populate("beltId");
 
         // console.log(student.Notes[0].senseiID.name)
   

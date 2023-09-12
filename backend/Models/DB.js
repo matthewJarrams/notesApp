@@ -37,13 +37,19 @@ const studentSchema = Schema(
       required: true
     },
     Curriculum: {
-        type: String
+        type: String,
+        required: true,
     },
     BadgesCompleted: [{ type: Schema.Types.ObjectId, ref: "Badge" }],
     Points: {
         type: Number
     },
     Notes: [{ type: Schema.Types.ObjectId, ref: "Note" }],
+    beltId: {
+      type: Schema.Types.ObjectId, 
+      ref: 'Belt',
+      required: true,
+  },
 
 
   },

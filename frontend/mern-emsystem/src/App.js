@@ -5,6 +5,7 @@ import NavBar from './components/NavBar';
 import Search from './pages/Search';
 import Student from './pages/Student';
 import Login from './pages/Login';
+import StudentAdmin from './pages/StudentAdmin';
 import { AuthContext } from './context/authContext';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -78,6 +79,10 @@ function App() {
             <Route
               path="/studentProfile/:id"
               element = {<Student />}
+            />
+            <Route
+              path="/studentAdmin/:id"
+              element = {<StudentAdmin />}
             />
             
             
