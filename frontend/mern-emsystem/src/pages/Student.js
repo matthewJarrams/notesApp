@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
-
+import { format } from 'date-fns';
 
 
 
@@ -153,17 +153,38 @@ const Student = () => {
             {student && student.beltId.Games.map((game) => <option value={game}>{game}</option>)}
         </select>
         <br></br><br></br>
-        <input type="text" placeholder="Write note here..." onChange={(text) => setComment(text.target.value)}/>
+        
+        <textarea placeholder="Write note here..." onChange={(text) => setComment(text.target.value)} className="w-1/4 border-2 border-gray-300 p-2 rounded-md mb-4" rows="4" cols="50" name="comment" id="comment" value={comment}></textarea>
         <br></br><br></br>
         <input type="submit" value="Add Note"/>
         <br></br><br></br>
       </form>
       <div>
         {student && student.Notes.map((note) => (
-          <li>
-            <a key={note._id} target="blank">{note.comment}</a>
-            <button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm ">Delete</button>
-          </li>
+          <table className="table-auto w-1/2 mx-auto divide-y divide-gray-100">
+            <thead>
+              <tr>
+                <th className="w-1/2 ...">Game</th>
+                <th className="w-1/2 ...">Comment</th>
+                <th className="w-1/2 ...">Date</th>
+                
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td className="text-left">{note.game}</td>
+                <td className="text-left">{note.comment}</td>
+                <td className="text-left whitespace-nowrap">{format(new Date(note.createdAt), "MMMM dd', 'yyyy")}</td>
+                <td><button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+
+          // <li>
+          //   <a key={note._id} target="blank">{note.comment}</a>
+          //   <button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm ">Delete</button>
+          // </li>
           
         )
         
