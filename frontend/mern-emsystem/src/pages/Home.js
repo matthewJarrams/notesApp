@@ -7,7 +7,12 @@ import { AuthContext } from "../context/authContext";
 
 const Home = () => {
 
-  const [notes, setNotes] = useState(null)
+  const [notes, setNotes] = useState(null);
+  const [state, setstate] = useState({
+    query: '',
+    list: []
+  })
+
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
   console.log(auth)
@@ -26,7 +31,11 @@ const Home = () => {
 
       if(response.ok)
       {
-        setNotes(json)
+        setNotes(json);
+        setstate({
+          query: "",
+          list: json
+      });
       }
     }
     fetchNotes()
@@ -50,12 +59,38 @@ const Home = () => {
     navigate(`/studentProfile/${item._id}`);
 
   };
+
+  const handleSearch = (e) => 
+  {
+    e.preventDefault();
+    console.log(e.target.value);
+    const results = notes.filter(note => {
+      if (e.target.value === "") return notes
+      return note.StudentName.toLowerCase().startsWith(e.target.value.toLowerCase())
+    })
+    setstate({
+        query: e.target.value,
+        list: results
+    });
+    console.log(results)
+  }
   
 
   return (
+    <div>
+      <div>
+
+      <input
+        type="search"
+        placeholder="Search here"
+        onChange={handleSearch}
+        value={state.query}
+        />
+      </div>
       <div className="flex justify-center items-center">
+        
         <ol className="divide-y divide-gray-100 w-96 " >
-          {notes && notes.map((note) => (
+          {notes && state.list && state.list.map((note) => (
             <li className="w-full border-b-2 border-neutral-100 border-opacity-100 py-4 dark:border-opacity-50 text-left"><a key={note._id} target="blank" onClick={() => handleClick(note)} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm " >{note.StudentName}</a>
               {/* <button className="py-2 px-4 text-right" onClick={handleProfileClick(note)}> View Notes </button> */}
               <Link
@@ -83,6 +118,7 @@ const Home = () => {
         
         )} */}
       </div>
+    </div>
     </div>
   )
   

@@ -2,10 +2,10 @@ import './App.css';
 import React, {useState, useEffect, useCallback} from 'react';
 import Home from './pages/Home';
 import NavBar from './components/NavBar';
-import Search from './pages/Search';
 import Student from './pages/Student';
 import Login from './pages/Login';
 import StudentAdmin from './pages/StudentAdmin';
+import DojoAdmin from './pages/DojoAdmin';
 import { AuthContext } from './context/authContext';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -65,7 +65,6 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <NavBar />
-        <Search />
         <div className='pages'>
           <Routes>
             <Route
@@ -84,7 +83,10 @@ function App() {
               path="/studentAdmin/:id"
               element = {<StudentAdmin />}
             />
-            
+            <Route
+              path="/generalAdmin"
+              element = {<DojoAdmin />}
+            />            
             
           </Routes>
           

@@ -5,10 +5,10 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from './logo.png';
 
 const navigation = [
-  { name: 'Notes', href: '#', current: true },
-  { name: 'Students', href: '#', current: false },
-  { name: 'Settings', href: '#', current: false },
-  { name: 'Games', href: '#', current: false },
+  { name: 'Home', href: '/', current: true },
+  { name: 'Student List', href: '/', current: false },
+  { name: 'Admin', href: '/generalAdmin', current: false },
+  { name: 'Info', href: '#', current: false },
 ]
 
 function classNames(...classes) {
