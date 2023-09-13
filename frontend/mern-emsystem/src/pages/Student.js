@@ -162,7 +162,7 @@ const Student = () => {
         {student && student.Notes.map((note) => (
           <li>
             <a key={note._id} target="blank">{note.comment}</a>
-            <button onClick={() => deleteNote(student, note)} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm ">Delete</button>
+            <button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm ">Delete</button>
           </li>
           
         )
