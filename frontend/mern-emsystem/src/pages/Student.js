@@ -153,7 +153,6 @@ const Student = () => {
             {student && student.beltId.Games.map((game) => <option value={game}>{game}</option>)}
         </select>
         <br></br><br></br>
-        
         <textarea placeholder="Write note here..." onChange={(text) => setComment(text.target.value)} className="w-1/4 border-2 border-gray-300 p-2 rounded-md mb-4" rows="4" cols="50" name="comment" id="comment" value={comment}></textarea>
         <br></br><br></br>
         <input type="submit" value="Add Note"/>
@@ -181,6 +180,7 @@ const Student = () => {
             </tbody>
           </table>
 
+
           // <li>
           //   <a key={note._id} target="blank">{note.comment}</a>
           //   <button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm ">Delete</button>
@@ -192,6 +192,9 @@ const Student = () => {
         
         )}
       </div>
+
+
+      <div className="pb-10"></div>
     </div>
   )
   }
