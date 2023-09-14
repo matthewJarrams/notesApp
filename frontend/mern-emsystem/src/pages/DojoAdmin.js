@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import { add } from "date-fns";
+// import addBeltPopup from "../components/AddBeltPopup";
 
 
 
@@ -20,20 +21,31 @@ const DojoAdmin = () => {
     console.log(data);
 
 
-    const [Curriculum, setCurriculum] = useState(null);
+    const [Curriculum, setCurriculum] = useState("Impact");
     const [StudentName, setName] = useState(null);
     const [OldStudentID, setStuId] = useState(null);
     const [Points, setPoints] = useState(0);
 
 
     const [isOpen, setIsOpen] = useState(false);
+    const [beltPopup, setBeltPopup] = useState(false);
 
 
     const studentPopup = async (e) => 
     {
         e.preventDefault();
         setIsOpen(true);
-        console.log(isOpen);
+    }
+
+    const newBeltPopup = async (e) => 
+    {
+        e.preventDefault();
+        setBeltPopup(true);
+    }
+
+    const addBelt = async (e) =>
+    {
+
     }
 
     const addStudent = async (e) =>
@@ -44,9 +56,15 @@ const DojoAdmin = () => {
         console.log(data.token);
 
         // request requires StudentName, OldStudentID, belt, Curriculum, Points
-        let belt = "white";
-        let curriculum = "Impact";
-        let oldStudentID = 0;
+        let belt = "White";
+        // let curriculum = "Impact";
+        if(OldStudentID == null)
+        {
+            console.log("here")
+            setStuId(0);
+        }
+        console.log(StudentName, OldStudentID, Points,Curriculum);
+
         
         const response = await fetch(`http://localhost:5000/notes/addStudent`, {
             method: 'POST',
@@ -54,7 +72,7 @@ const DojoAdmin = () => {
               "x-access-token": data.token,
               "Content-Type": "application/json"
             },
-            body: JSON.stringify({ StudentName, oldStudentID, belt, curriculum, Points})
+            body: JSON.stringify({ StudentName, OldStudentID, belt, Curriculum, Points})
           });
           const json = await response.json();
 
@@ -71,7 +89,7 @@ const DojoAdmin = () => {
         setName(null);
         setStuId(null);
         setPoints(0);
-        setCurriculum(null);
+        setCurriculum("Impact");
 
 
         setIsOpen(false);
@@ -92,7 +110,7 @@ const DojoAdmin = () => {
         </button>
         <br></br>
         <br></br>
-        <button class="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button class="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={newBeltPopup}>
             Add New Belt
         </button>
         <br></br>
@@ -146,7 +164,7 @@ const DojoAdmin = () => {
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                     Student ID Number (optional) 
                     </label>
-                    <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="oldStuId" type="number"  onChange={(e) => setStuId(e.target.value)}/>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="oldStuId" type="number"  onChange={(e) => setStuId(e.target.value)}/>
                     <p class="text-red-500 text-xs italic">Enter old student ID number from previous notes App</p>
                     
                 </div>
@@ -182,6 +200,86 @@ const DojoAdmin = () => {
           <div className="opacity-75 fixed inset-0 z-40 bg-black"></div>
           </div>
         }
+        {beltPopup && <div><div
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+          >
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">
+                    Add Belt
+                  </h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                
+                <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                    Curriculum
+                </label>
+                <select name="curriculum" id="curriculum">
+                 <option value="Impact">Impact</option>
+                 <option value="GDP">GDP</option>
+                </select>
+                </div>
+                <br></br>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                    Student Name
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Code Ninja"/>
+                </div>
+                <br></br>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                    Student ID Number (optional) 
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="oldStuId" type="number" />
+                    <p class="text-red-500 text-xs italic">Enter old student ID number from previous notes App</p>
+                    
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                    Points 
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="points" type="number" placeholder = "0" />
+                    
+                </div>
+                </form>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setBeltPopup(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() =>setBeltPopup(false)}
+
+                  >
+                    Add Student
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-75 fixed inset-0 z-40 bg-black"></div>
+          </div>}
         </div>
         )
         }

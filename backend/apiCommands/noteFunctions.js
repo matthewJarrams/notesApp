@@ -37,9 +37,9 @@ const addStudent = async (req,res) => {
     // console.log(Curriculum);
 
     let StudentName = req.body.StudentName;
-    let OldStudentID = req.body.oldStudentID;
+    let OldStudentID = req.body.OldStudentID;
     let belt = req.body.belt;
-    let Curriculum = req.body.curriculum;
+    let Curriculum = req.body.Curriculum;
     let Points = req.body.Points;
     
     let beltId;
