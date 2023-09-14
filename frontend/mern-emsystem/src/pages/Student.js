@@ -140,7 +140,21 @@ const Student = () => {
   return (
     <div className="home">
       <div>
-        <p>{student && student.StudentName}</p>
+        <p className="inline-block whitespace-nowrap text-xl">
+          {student && student.StudentName}
+
+          &nbsp;
+
+          <Link className="text-blue-500 hover:text-blue-800" to={`/studentAdmin/${student && student._id}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline-block">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+            </svg>
+          </Link>
+
+
+
+
+        </p>
       </div>
       <form onSubmit={handleSubmit}>
         <br></br>
@@ -159,7 +173,7 @@ const Student = () => {
         <br></br><br></br>
       </form>
       <div>
-        {student && student.Notes.map((note) => (
+        
           <table className="table-auto w-1/2 mx-auto divide-y divide-gray-100">
             <thead>
               <tr>
@@ -170,27 +184,26 @@ const Student = () => {
               </tr>
             </thead>
 
-            <tbody>
+            <tbody className="divide-y divide-gray-100">
+            {student && student.Notes.map((note) => (
               <tr>
                 <td className="text-left">{note.game}</td>
                 <td className="text-left">{note.comment}</td>
                 <td className="text-left whitespace-nowrap">{format(new Date(note.createdAt), "MMMM dd', 'yyyy")}</td>
                 <td><button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button></td>
               </tr>
+            ))}
             </tbody>
           </table>
 
 
-          // <li>
-          //   <a key={note._id} target="blank">{note.comment}</a>
-          //   <button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm ">Delete</button>
-          // </li>
+
           
-        )
+        
         
       
         
-        )}
+        
       </div>
 
 
