@@ -32,7 +32,16 @@ const addBelt = async (req, res) => {
 
 
 const addStudent = async (req,res) => {
-    let { StudentName, OldStudentID, belt, Curriculum, Points } = req.body;
+
+    // let { StudentName, OldStudentID, belt, Curriculum, Points } = req.body;
+    // console.log(Curriculum);
+
+    let StudentName = req.body.StudentName;
+    let OldStudentID = req.body.oldStudentID;
+    let belt = req.body.belt;
+    let Curriculum = req.body.curriculum;
+    let Points = req.body.Points;
+    
     let beltId;
     if(Curriculum == "GDP")
     {
@@ -46,8 +55,9 @@ const addStudent = async (req,res) => {
     }
     
     try {
+      console.log(StudentName, OldStudentID, belt, Curriculum, Points);
         const newStudent = await db.Student.create({ StudentName, OldStudentID, belt, Curriculum, Points, beltId });
-
+        console.log(newStudent);
         res.status(200).json(newStudent);
     } catch (error) {
         res.status(400).json({ error: error.message });

@@ -41,6 +41,32 @@ const DojoAdmin = () => {
         e.preventDefault();
         
         console.log(StudentName, OldStudentID, Points,Curriculum);
+        console.log(data.token);
+
+        // request requires StudentName, OldStudentID, belt, Curriculum, Points
+        let belt = "white";
+        let curriculum = "Impact";
+        let oldStudentID = 0;
+        
+        const response = await fetch(`http://localhost:5000/notes/addStudent`, {
+            method: 'POST',
+            headers: {
+              "x-access-token": data.token,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ StudentName, oldStudentID, belt, curriculum, Points})
+          });
+          const json = await response.json();
+
+          if(response.ok)
+          {
+            console.log(json)
+            setIsOpen(false);
+          }
+          else
+          {
+            console.log("error")
+          }
 
         setName(null);
         setStuId(null);
