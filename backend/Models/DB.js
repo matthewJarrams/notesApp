@@ -30,11 +30,9 @@ const studentSchema = Schema(
     },
     OldStudentID: {
       type: Number,
-      required: true,
     },
     belt: {
       type: String,
-      required: true
     },
     Curriculum: {
         type: String,
