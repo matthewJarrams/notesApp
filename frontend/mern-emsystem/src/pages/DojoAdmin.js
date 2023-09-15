@@ -11,6 +11,20 @@ import { add } from "date-fns";
 
 const DojoAdmin = () => {
     
+    const [Games, setGames] = useState([]);
+    const [textValue, setTextValue] = useState("");
+    const [Colour, setColour] = useState("");
+    const [curriculum, setcurriculum] = useState("Impact");
+    
+    const handleOptionAdd = (e) => {
+        e.preventDefault();
+      if (textValue.trim().length === 0) return;
+      setTextValue("");
+      setGames([
+        ...Games,
+        textValue
+      ]);
+    };
     
    
     const navigate = useNavigate();
@@ -31,6 +45,9 @@ const DojoAdmin = () => {
     const [beltPopup, setBeltPopup] = useState(false);
 
 
+    
+
+
     const studentPopup = async (e) => 
     {
         e.preventDefault();
@@ -45,7 +62,34 @@ const DojoAdmin = () => {
 
     const addBelt = async (e) =>
     {
+        e.preventDefault();
 
+        const response = await fetch(`http://localhost:5000/notes/addBelt`, {
+            method: 'POST',
+            headers: {
+              "x-access-token": data.token,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ Colour, Games, curriculum})
+          });
+          const json = await response.json();
+
+          if(response.ok)
+          {
+            console.log(json)
+            setIsOpen(false);
+          }
+          else
+          {
+            console.log("error")
+          }
+
+        setColour("");
+        setGames([]);
+        setcurriculum("Impact");
+        setTextValue("");
+
+        setBeltPopup(false);
     }
 
     const addStudent = async (e) =>
@@ -95,6 +139,13 @@ const DojoAdmin = () => {
         setIsOpen(false);
     }
   
+    const handleClose = () =>
+    {
+        setBeltPopup(false);
+        setTextValue("");
+        setGames([]);
+    }
+
   return (
     <div className="home">
         <br></br>
@@ -227,7 +278,7 @@ const DojoAdmin = () => {
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                     Curriculum
                 </label>
-                <select name="curriculum" id="curriculum">
+                <select name="curriculum" id="curriculum" onChange={(choice) => setcurriculum(choice.target.value)}>
                  <option value="Impact">Impact</option>
                  <option value="GDP">GDP</option>
                 </select>
@@ -235,24 +286,31 @@ const DojoAdmin = () => {
                 <br></br>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    Student Name
+                    Colour
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Code Ninja"/>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="White - Impact" onChange={(e) => setColour(e.target.value)}/>
                 </div>
                 <br></br>
                 <div class="mb-6">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-                    Student ID Number (optional) 
+                    Games
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="oldStuId" type="number" />
-                    <p class="text-red-500 text-xs italic">Enter old student ID number from previous notes App</p>
-                    
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-                    Points 
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="points" type="number" placeholder = "0" />
+                    <div className="App">
+      <input
+        type="text"
+        value={textValue}
+        onChange={(e) => setTextValue(e.target.value)}
+      />
+      <button onClick={handleOptionAdd}>Add</button>
+
+      <div>
+        {Games.map((game) => (
+          <div>
+            <label>{game}</label>
+          </div>
+        ))}
+      </div>
+    </div>
                     
                 </div>
                 </form>
@@ -262,17 +320,17 @@ const DojoAdmin = () => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setBeltPopup(false)}
+                    onClick={handleClose}
                   >
                     Close
                   </button>
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() =>setBeltPopup(false)}
+                    onClick={addBelt}
 
                   >
-                    Add Student
+                    Add Belt
                   </button>
                 </div>
               </div>

@@ -20,13 +20,15 @@ const getStudents = async (req, res) => {
 };
 
 const addBelt = async (req, res) => {
-    const {Colour, Games} = req.body
+    const {Colour, Games, curriculum} = req.body
+    console.log(req.body)
     try {
-        const belt = await db.Belt.create({Colour, Games})
+        const belt = await db.Belt.create({Colour, Games, curriculum})
         res.status(200).json(belt)
     } catch (error) 
     {
-        res.status(400).json({error: error.message})
+        res.status(400).json({error: error.message});
+        console.log(error.message)
     }
 }
 

@@ -89,6 +89,10 @@ const beltsSchema = Schema(
       type: String,
     //   required: true,
     }],
+    curriculum: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

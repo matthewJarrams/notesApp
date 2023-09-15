@@ -1,20 +1,50 @@
 import {Link} from 'react-router-dom'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from './logo.png';
+import { useNavigate } from 'react-router-dom';
+
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'Student List', href: '/', current: false },
+  { name: 'Belt List', href: '#', current: false },
   { name: 'Admin', href: '/generalAdmin', current: false },
-  { name: 'Info', href: '#', current: false },
+
 ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
+
+
+
 const NavBar = () => {
+    const [current, setCurrent] = useState("Home");
+    const navigate = useNavigate();
+
+
+    const changeCurrent = async (e, item) =>
+    {    
+        e.preventDefault();
+
+        setCurrent(item.name)
+        for (var key in navigation) 
+        {
+            if (navigation[key].name == item.name)
+            {
+                navigation[key].current = true;
+            }
+            else
+            {
+                navigation[key].current = false;
+            }
+                               
+        }    
+        navigate(item.href);
+    }
+
     return (
         <header>
             <div className="text-gray-500">
@@ -47,6 +77,7 @@ const NavBar = () => {
                                 <div className="flex space-x-4">
                                     {navigation.map((item) => (
                                     <a
+                                        onClick={(e) => changeCurrent(e, item)}
                                         key={item.name}
                                         href={item.href}
                                         className={classNames(
