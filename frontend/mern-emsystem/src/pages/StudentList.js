@@ -104,7 +104,12 @@ const StudentList = () => {
             <tbody className="divide-y divide-gray-100">
             {notes && state.list && state.list.map((note) => (
               <tr>
-                <td className="text-left">{note.StudentName}</td>
+                <td className="text-left">{
+                  <Link to={`/studentProfile/${note._id}`} onClick={() => handleClick(note)}>
+                    {note.StudentName}
+                  </Link>
+
+                }</td>
                 <td className="text-left">{note.beltId.Colour}</td>
                 <td className="text-left">{note.Points}</td>
                 <td><button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){console.log("Delete")}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button></td>

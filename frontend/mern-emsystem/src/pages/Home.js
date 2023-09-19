@@ -4,6 +4,27 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../context/authContext";
 
 
+const StudentListElement = ({student, handleClick}) => {
+  console.log(student);
+  return (
+    <tr className="w-full border-b-2 border-neutral-100 border-opacity-100 py-4 dark:border-opacity-50">
+      <td>
+        <div className="text-left text-xl">
+          <Link to={`/studentProfile/${student._id}`} onClick={() => handleClick(student)}>
+            {student.StudentName}
+          </Link>
+        </div>
+      </td>
+      <tr>
+        <div className="text-right">
+          {student.belt.toLowerCase().charAt(0).toUpperCase() + student.belt.slice(1)}
+        </div>
+      </tr>
+    </tr>
+  )
+}
+
+
 
 const Home = () => {
 
@@ -89,35 +110,14 @@ const Home = () => {
       </div>
       <div className="flex justify-center items-center">
         
-        <ol className="divide-y divide-gray-100 w-96 " >
+        <table className="table-auto w-1/2 mx-auto divide-y divide-gray-100" >
           {notes && state.list && state.list.map((note) => (
-            <li className="w-full border-b-2 border-neutral-100 border-opacity-100 py-4 dark:border-opacity-50 text-left"><a key={note._id} target="blank" onClick={() => handleClick(note)} className=" bg-blue-400 py-2 px-4 rounded text-center hover:bg-blue-800 hover:text-blue-50 cursor-pointer shadow-sm " >{note.StudentName}</a>
-              {/* <button className="py-2 px-4 text-right" onClick={handleProfileClick(note)}> View Notes </button> */}
-              <Link
-              to={{ pathname: `/studentAdmin/${note._id}`, state: {data : note}}}
-      >
-            Update Profile
-        </Link> 
-            </li>
+            <StudentListElement student={note} handleClick={handleClick}/>
+
           )
           )}
-        </ol>
-      <div>
-        {/* {notes && notes.map((note) => (
-          <li><a key={note._id} target="blank" onClick={() => handleClick(note)}>{note.StudentName}</a></li>
-      //     <Link
-      //         to={{ pathname: `/studentProfile/${note._id}`, state: {data : note}}}
-      // >
-      //       note._id
-      //   </Link>
-      
-          
-        )
-        
-      
-        
-        )} */}
-      </div>
+        </table>
+
     </div>
     </div>
   )
