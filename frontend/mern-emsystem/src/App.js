@@ -7,7 +7,9 @@ import Login from './pages/Login';
 import StudentAdmin from './pages/StudentAdmin';
 import DojoAdmin from './pages/DojoAdmin';
 import { AuthContext } from './context/authContext';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, UNSAFE_DataRouterStateContext } from 'react-router-dom'
+import DataLists from './pages/DataLists';
+import StudentList from './pages/StudentList';
 
 
 function App() {
@@ -86,7 +88,15 @@ function App() {
             <Route
               path="/generalAdmin"
               element = {<DojoAdmin />}
-            />            
+            />   
+            <Route
+              path="/dataLists"
+              element = {<DataLists />}
+            />
+            <Route
+              path="/studentList"
+              element = {<StudentList />}
+            />             
             
           </Routes>
           

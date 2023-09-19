@@ -13,7 +13,7 @@ const getBelts = async (req, res) => {
 };
 
 const getStudents = async (req, res) => {
-    const allStudents =  await db.Student.find({})
+    const allStudents =  await db.Student.find({}).populate("beltId");
     res.status(200).json(allStudents);
     // console.log(JSON.stringify(allStudents))
 
@@ -31,6 +31,20 @@ const addBelt = async (req, res) => {
         console.log(error.message)
     }
 }
+
+const addBadge = async (req, res) => {
+  const {BadgeName, Points} = req.body
+  console.log(req.body)
+  try {
+      const badge = await db.Badge.create({BadgeName, Points})
+      res.status(200).json(badge)
+  } catch (error) 
+  {
+      res.status(400).json({error: error.message});
+      console.log(error.message)
+  }
+}
+
 
 
 const addStudent = async (req,res) => {
@@ -190,6 +204,7 @@ module.exports = {
     getStudent,
     deleteNote,
     getStudents,
-    updateStudent
+    updateStudent,
+    addBadge
     
   };

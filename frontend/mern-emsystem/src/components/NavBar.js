@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
-  { name: 'Student List', href: '/', current: false },
-  { name: 'Belt List', href: '#', current: false },
+  { name: 'Student List', href: '/studentList', current: false },
+  { name: 'Data Lists', href: '/dataLists', current: false },
   { name: 'Admin', href: '/generalAdmin', current: false },
 
 ]

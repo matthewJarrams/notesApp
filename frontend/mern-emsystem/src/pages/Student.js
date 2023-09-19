@@ -179,6 +179,7 @@ const Student = () => {
               <tr>
                 <th className="w-1/2 ...">Game</th>
                 <th className="w-1/2 ...">Comment</th>
+                <th className ="w-1/2 ...">Sensi</th>
                 <th className="w-1/2 ...">Date</th>
                 
               </tr>
@@ -189,6 +190,7 @@ const Student = () => {
               <tr>
                 <td className="text-left">{note.game}</td>
                 <td className="text-left">{note.comment}</td>
+                <td className="text-left">{note.senseiID.name}</td>
                 <td className="text-left whitespace-nowrap">{format(new Date(note.createdAt), "MMMM dd', 'yyyy")}</td>
                 <td><button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button></td>
               </tr>

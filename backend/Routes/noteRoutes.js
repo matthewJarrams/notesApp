@@ -6,7 +6,7 @@ const { response } = require("express");
 const { verifyJWT } = require('../apiCommands/userFunctions')
 
 
-const {getBelts, addBelt, addStudent, makeNote, getStudent, deleteNote, getStudents, updateStudent} = require('../apiCommands/noteFunctions')
+const {getBelts, addBelt, addStudent, makeNote, getStudent, deleteNote, getStudents, updateStudent, addBadge} = require('../apiCommands/noteFunctions')
 
 const router = express.Router()
 
@@ -22,13 +22,15 @@ router.post('/addBelt', verifyJWT, addBelt);
 
 router.post('/addStudent', verifyJWT, addStudent);
 
-router.post('/makeNote/:studentID', verifyJWT, makeNote)  
+router.post('/makeNote/:studentID', verifyJWT, makeNote);
 
-router.get('/:studentID', verifyJWT, getStudent)
+router.post('/addBadge', verifyJWT, addBadge);
 
-router.delete("/deleteNote/:stuID/:id", verifyJWT, deleteNote)
+router.get('/:studentID', verifyJWT, getStudent);
 
-router.patch("/updateStudent/:id", verifyJWT, updateStudent)
+router.delete("/deleteNote/:stuID/:id", verifyJWT, deleteNote);
+
+router.patch("/updateStudent/:id", verifyJWT, updateStudent);
 
 
 
