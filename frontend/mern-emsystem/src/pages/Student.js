@@ -17,6 +17,8 @@ const Student = () => {
     const [deleted, setDelete] = useState(false);
     const [newNote, setNewNote] = useState(false);
 
+    const [error, setError] = useState(false);
+
     const navigate = useNavigate();
     const location = useLocation();
     const auth = useContext(AuthContext);
@@ -100,35 +102,43 @@ const Student = () => {
         }
         const note = {comment, game};
 
-        const response = await fetch(`http://localhost:5000/notes/makeNote/${id}`, {
-            method: 'POST',
-            body: JSON.stringify(note),
-            headers: {
-              'Content-Type': 'application/json',
-              "x-access-token": data.token
+        if(comment == '')
+        {
+          setError(true);
+        }
+        else
+        {
+          const response = await fetch(`http://localhost:5000/notes/makeNote/${id}`, {
+              method: 'POST',
+              body: JSON.stringify(note),
+              headers: {
+                'Content-Type': 'application/json',
+                "x-access-token": data.token
+              }
+            })
+            const json = await response.json()
+        
+            if (!response.ok) {
+              console.log(response.error)
             }
-          })
-          const json = await response.json()
-      
-          if (!response.ok) {
-            console.log(response.error)
-          }
-          if (response.ok) {
-            if(newNote)
-            {
-                setNewNote(false);
-            }
-            else
-            {
-                setNewNote(true)
-            }
-            setGame('Default');
-            setComment('');
-            console.log('new note added:', json);
-            e.target.reset();
+            if (response.ok) {
+              if(newNote)
+              {
+                  setNewNote(false);
+              }
+              else
+              {
+                  setNewNote(true)
+              }
+              setGame('Default');
+              setComment('');
+              console.log('new note added:', json);
+              e.target.reset();
+              setError(false);
 
             
           }
+        }
       
     }
       
@@ -169,6 +179,8 @@ const Student = () => {
         <br></br><br></br>
         <textarea placeholder="Write note here..." onChange={(text) => setComment(text.target.value)} className="w-1/4 border-2 border-gray-300 p-2 rounded-md mb-4" rows="4" cols="50" name="comment" id="comment" value={comment}></textarea>
         <br></br><br></br>
+        {error && <p className="text-red-500 border-2 border-black px-2 py-1 bg-slate-200">Input Error: Empty note</p>}
+        <br></br>
         <input className= "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit" value="Add Note"/>
         <br></br><br></br>
       </form>

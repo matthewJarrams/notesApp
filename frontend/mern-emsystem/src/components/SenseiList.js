@@ -49,7 +49,7 @@ const SenseiList = () => {
             <ol className="divide-y divide-gray-100 w-250 even:bg-slate-100 odd:bg-slate-300 " >
              
             <li className='py-3'>
-            <button className="py-2 px-20 text-right" > {sensei.name} </button>
+            <button className="py-2 px-20 text-right" > {sensei.username} </button>
             <div class="inline-flex rounded-md shadow-sm mx-2">
             <button onclick={() => setUser(true)} className={classNames(activeUser ? 'bg-green-300 block px-4 py-2 text-sm text-gray-700 px-4 py-2 text-sm font-medium text-grey-900 bg-white border border-gray-200 rounded-l-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white' :  'block px-4 py-2 text-sm text-gray-700 px-4 py-2 text-sm font-medium text-grey-900 bg-white border border-gray-200 rounded-l-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white')}>
                 Active

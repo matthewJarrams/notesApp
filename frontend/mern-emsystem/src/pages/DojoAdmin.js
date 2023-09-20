@@ -36,13 +36,14 @@ const DojoAdmin = () => {
 
 
     const [Curriculum, setCurriculum] = useState("Impact");
-    const [StudentName, setName] = useState(null);
+    const [StudentName, setName] = useState("");
     const [OldStudentID, setStuId] = useState(null);
     const [Points, setPoints] = useState(0);
 
     const [senseiName, setSenseiName]= useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
 
     const [BadgeName, setBadgeName] = useState("");
     const [badgePoints, setBadgePoints] = useState(0);
@@ -115,69 +116,96 @@ const DojoAdmin = () => {
         e.preventDefault();
         const name = senseiName;
 
-        const response = await fetch('http://localhost:5000/register', {
-            method: 'POST',
-            headers: {
-                "x-access-token": data.token,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({username, name, password})
-        })
-
-        const json = await response.json();
-
-        if(response.ok)
+        if(name == '' || username == '' || password == '')
         {
-          console.log(json)
-          setSenseiPopup(false);
+            console.log("input error!");
+            setError(true);
         }
         else
         {
-          console.log("error")
+
+            const response = await fetch('http://localhost:5000/register', {
+                method: 'POST',
+                headers: {
+                    "x-access-token": data.token,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({username, name, password})
+            })
+
+            const json = await response.json();
+
+            if(response.ok)
+            {
+            console.log(json)
+            setSenseiPopup(false);
+            }
+            else
+            {
+            console.log("error")
+            }
+            setUsername("");
+            setSenseiName("");
+            setPassword("");
+            setError(false);
+            setSenseiPopup(false);
+
         }
 
-        setUsername("");
-        setSenseiName("");
-        setPassword("");
+  
 
-        setSenseiPopup(false);
     }
 
     const addBelt = async (e) =>
     {
         e.preventDefault();
 
-        const response = await fetch(`http://localhost:5000/notes/addBelt`, {
-            method: 'POST',
-            headers: {
-              "x-access-token": data.token,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ Colour, Games, curriculum})
-          });
-          const json = await response.json();
+        if(Colour == '' || Games.length == 0)
+        {
+            console.log("Input Error");
+            setError(true);
+        }
+        else
+        {
 
-          if(response.ok)
-          {
-            console.log(json)
-            setIsOpen(false);
-          }
-          else
-          {
-            console.log("error")
-          }
+            const response = await fetch(`http://localhost:5000/notes/addBelt`, {
+                method: 'POST',
+                headers: {
+                "x-access-token": data.token,
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ Colour, Games, curriculum})
+            });
+            const json = await response.json();
 
-        setColour("");
-        setGames([]);
-        setcurriculum("Impact");
-        setTextValue("");
+            if(response.ok)
+            {
+                console.log(json)
+                setIsOpen(false);
+            }
+            else
+            {
+                console.log("error")
+            }
+            setBeltPopup(false);
+            setError(false);
+            
+            setColour("");
+            setGames([]);
+            setcurriculum("Impact");
+            setTextValue("");
+            
 
-        setBeltPopup(false);
+        }
+
+
     }
 
     const addStudent = async (e) =>
     {
         e.preventDefault();
+
+        
         
         console.log(StudentName, OldStudentID, Points,Curriculum);
         console.log(data.token);
@@ -192,38 +220,49 @@ const DojoAdmin = () => {
         }
         console.log(StudentName, OldStudentID, Points,Curriculum);
 
-        
-        const response = await fetch(`http://localhost:5000/notes/addStudent`, {
-            method: 'POST',
-            headers: {
-              "x-access-token": data.token,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ StudentName, OldStudentID, belt, Curriculum, Points})
-          });
-          const json = await response.json();
+        if(StudentName == '')
+        {
+            console.log("Input error");
+            setError(true);
+        }
+        else
+        {
+            const response = await fetch(`http://localhost:5000/notes/addStudent`, {
+                method: 'POST',
+                headers: {
+                "x-access-token": data.token,
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ StudentName, OldStudentID, belt, Curriculum, Points})
+            });
+            const json = await response.json();
 
-          if(response.ok)
-          {
-            console.log(json)
+            if(response.ok)
+            {
+                console.log(json)
+                setIsOpen(false);
+            }
+            else
+            {
+                console.log("error")
+            }
+            setName("");
+            setStuId(null);
+            setPoints(0);
+            setCurriculum("Impact");
+    
+    
             setIsOpen(false);
-          }
-          else
-          {
-            console.log("error")
-          }
-
-        setName(null);
-        setStuId(null);
-        setPoints(0);
-        setCurriculum("Impact");
+            setError(false);
+        }
 
 
-        setIsOpen(false);
     }
   
     const handleClose = () =>
     {
+        setIsOpen(false);
+        setError(false);
         setSenseiPopup(false);
         setBeltPopup(false);
         setTextValue("");
@@ -276,6 +315,8 @@ const DojoAdmin = () => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
+                {error && <p className="text-red-500 border-2 border-black px-2 py-1 bg-slate-200">Input Error: Please make sure all fields are filled in</p>}
+
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 
                 <div class="mb-4">
@@ -285,6 +326,7 @@ const DojoAdmin = () => {
                 <select name="curriculum" id="curriculum"  onChange={(choice) => setCurriculum(choice.target.value)}>
                  <option value="Impact">Impact</option>
                  <option value="GDP">GDP</option>
+                 
                 </select>
                 </div>
                 <br></br>
@@ -317,7 +359,7 @@ const DojoAdmin = () => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setIsOpen(false)}
+                    onClick={handleClose}
                   >
                     Close
                   </button>
@@ -356,6 +398,8 @@ const DojoAdmin = () => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
+                {error && <p className="text-red-500 border-2 border-black px-2 py-1 bg-slate-200">Input Error: Please make sure all fields are filled in</p>}
+
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 
                 <div class="mb-4">
@@ -365,6 +409,7 @@ const DojoAdmin = () => {
                 <select name="curriculum" id="curriculum" onChange={(choice) => setcurriculum(choice.target.value)}>
                  <option value="Impact">Impact</option>
                  <option value="GDP">GDP</option>
+                 <option value="Impact & GDP">Impact & GDP</option>
                 </select>
                 </div>
                 <br></br>
@@ -443,6 +488,8 @@ const DojoAdmin = () => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
+                {error && <p className="text-red-500 border-2 border-black px-2 py-1 bg-slate-200">Input Error: Please make sure all fields are filled in</p>}
+
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 
                 <div class="mb-4">
