@@ -12,6 +12,12 @@ const getBelts = async (req, res) => {
 
 };
 
+const getBadges = async (req, res) => {
+  const allBadges =  await db.Badge.find({})
+  res.status(200).json(allBadges);
+
+};
+
 const getStudents = async (req, res) => {
     const allStudents =  await db.Student.find({}).populate("beltId");
     res.status(200).json(allStudents);
@@ -205,6 +211,7 @@ module.exports = {
     deleteNote,
     getStudents,
     updateStudent,
-    addBadge
+    addBadge,
+    getBadges,
     
   };

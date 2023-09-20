@@ -2,12 +2,19 @@ import { useEffect, useState, useContext } from "react"
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../context/authContext";
+import BeltList from "../components/BeltList";
+// import { Sensei } from "../../../../backend/Models/DB";
+import SenseiList from "../components/SenseiList";
+import BadgeList from "../components/BadgeList";
 
 
 
 const DataLists = () => {
 
-  const [option, setOption] = useState("")
+  const [option, setOption] = useState("");
+  const [beltsChoice, setBeltChoice] = useState(false);
+  const [senseiChoice, setSenseiChoice] = useState(false);
+  const [badgeChoice, setBadgeChoice] = useState(false);
 
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
@@ -52,7 +59,31 @@ const DataLists = () => {
 //     });
 //     console.log(results)
 //   }
-  
+    
+    const getBelts = async (e) => 
+    {
+        // e.preventDefault();
+        setSenseiChoice(false);
+        setBeltChoice(true);
+        setBadgeChoice(false);
+    }
+
+    const getBadges = async (e) => 
+    {
+        // e.preventDefault();
+        setSenseiChoice(false);
+        setBeltChoice(false);
+        setBadgeChoice(true);
+    }
+
+    const getSenseis = async (e) => 
+    {
+        // e.preventDefault();
+        setSenseiChoice(true);
+        setBeltChoice(false);
+        setBadgeChoice(false);
+    }
+
 
   return (
     <div>
@@ -61,38 +92,23 @@ const DataLists = () => {
         <p>Edit and View Site Content</p>
 
         <br></br>
-      {/* <div>
-       
-      <select name="dataList" id="dataList"  onChange={(dataOption) => setOption(dataOption.target.value)}>
-            <option value="-- Choose Option --">-- Choose Option --</option>
-            <option value="Belts">Belts</option>
-            <option value="Badges">Badges</option>
-            <option value="Senseis">Senseis</option>
-            
-            
-        </select>
-      </div> */}
         <div class="inline-flex rounded-md shadow-sm">
-            <a href="#" aria-current="page" class="px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+            <a href="#" onClick={() => getBelts()}  class="px-4 py-2 text-sm font-medium text-grey-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                 Belts
             </a>
-            <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+            <a href="#" onClick={() => getBadges()} class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                 Badges
             </a>
-            <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+            <a href="#" onClick={() => getSenseis()}class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                 Senseis
             </a>
         </div>
       <br></br>
       <br></br>
       <div className="flex justify-center items-center">
-        
-        {true && <ol className="divide-y divide-gray-100 w-96 " >
-            <li>
-            <button className="py-2 px-4 text-right" > White - Imapct </button>
-            <button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){console.log("Delete")}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button>
-            </li>
-        </ol>}
+        {beltsChoice && <BeltList />}
+        {badgeChoice && <BadgeList />}
+        {senseiChoice && <SenseiList />}
       <div>
       </div>
     </div>
