@@ -169,7 +169,7 @@ const Student = () => {
         <br></br><br></br>
         <textarea placeholder="Write note here..." onChange={(text) => setComment(text.target.value)} className="w-1/4 border-2 border-gray-300 p-2 rounded-md mb-4" rows="4" cols="50" name="comment" id="comment" value={comment}></textarea>
         <br></br><br></br>
-        <input type="submit" value="Add Note"/>
+        <input className= "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit" value="Add Note"/>
         <br></br><br></br>
       </form>
       <div>
@@ -185,13 +185,13 @@ const Student = () => {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-gray-100 [&>*:nth-child(even)]:bg-gray-100 [&>*:nth-child(odd)]:bg-gray-300">
             {student && student.Notes.map((note) => (
               <tr>
                 <td className="text-left">{note.game}</td>
-                <td className="text-left">{note.comment}</td>
-                <td className="text-left">{note.senseiID.name}</td>
-                <td className="text-left whitespace-nowrap">{format(new Date(note.createdAt), "MMMM dd', 'yyyy")}</td>
+                <td className="text-left ">{note.comment}</td>
+                <td className="text-left px-5">{note.senseiID.name}</td>
+                <td className="text-left whitespace-nowrap px-5">{format(new Date(note.createdAt), "MMMM dd', 'yyyy")}</td>
                 <td><button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button></td>
               </tr>
             ))}

@@ -17,7 +17,7 @@ const StudentListElement = ({student, handleClick}) => {
       </td>
       <tr>
         <div className="text-right">
-          {student.belt.toLowerCase().charAt(0).toUpperCase() + student.belt.slice(1)}
+          {student.beltId.Colour}
         </div>
       </tr>
     </tr>
@@ -110,12 +110,14 @@ const Home = () => {
       </div>
       <div className="flex justify-center items-center">
         
-        <table className="table-auto w-1/2 mx-auto divide-y divide-gray-100" >
+        <table className="table-auto w-1/2 mx-auto divide-y divide-gray-100 " >
+        <tbody className="divide-y divide-gray-100 [&>*:nth-child(even)]:bg-gray-100 [&>*:nth-child(odd)]:bg-gray-300">
           {notes && state.list && state.list.map((note) => (
             <StudentListElement student={note} handleClick={handleClick}/>
 
           )
           )}
+          </tbody>
         </table>
 
     </div>

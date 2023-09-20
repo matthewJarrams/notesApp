@@ -9,8 +9,12 @@ import { AuthContext } from '../context/authContext';
 
 const SenseiList = () => {
 
-    const [senseis, setSenseis] = useState(null);
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+      }
 
+    const [senseis, setSenseis] = useState(null);
+    const [activeUser, setUser] = useState(true);
     const auth = useContext(AuthContext);
     console.log(auth)
     const data = JSON.parse(localStorage.getItem("userData"));
@@ -40,15 +44,23 @@ const SenseiList = () => {
 
 
     return (
-        <div className="text-black-500">
-            
-            <ol className="divide-y divide-gray-100 w-96 " >
+        <div className="text-black-500 ">
             {senseis && senseis.map((sensei) => 
-            <li>
+            <ol className="divide-y divide-gray-100 w-250 even:bg-slate-100 odd:bg-slate-300 " >
+             
+            <li className='py-3'>
             <button className="py-2 px-20 text-right" > {sensei.name} </button>
-            <button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){console.log("Delete")}}} className=" bg-red-400 py-2 px-5 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button>
-            </li>)}
-        </ol>
+            <div class="inline-flex rounded-md shadow-sm mx-2">
+            <button onclick={() => setUser(true)} className={classNames(activeUser ? 'bg-green-300 block px-4 py-2 text-sm text-gray-700 px-4 py-2 text-sm font-medium text-grey-900 bg-white border border-gray-200 rounded-l-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white' :  'block px-4 py-2 text-sm text-gray-700 px-4 py-2 text-sm font-medium text-grey-900 bg-white border border-gray-200 rounded-l-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white')}>
+                Active
+            </button>
+            <button  className={classNames(activeUser ?  'block px-4 py-2 text-sm text-gray-700 px-4 py-2 text-sm font-medium text-grey-900 bg-white border border-gray-200 rounded-l-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white' :  'bg-red-300 block px-4 py-2 text-sm text-gray-700 px-4 py-2 text-sm font-medium text-grey-900 bg-white border border-gray-200 rounded-l-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white')}>
+                Inactive
+            </button>
+            
+        </div>
+            </li>
+        </ol>)}
         </div>
     
     )

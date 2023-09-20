@@ -41,15 +41,15 @@ const BadgeList = () => {
 
     return (
         <div className="text-black-500">
-            
-            <ol className="divide-y divide-gray-100 w-96 " >
-            {badges && badges.map((badge) => 
-            <li>
+            {badges && badges.map((badge) =>(
+            <ol className="divide-y divide-gray-100 w-96 even:bg-slate-100 odd:bg-slate-300" >
+             
+            <li className='py-3'>
             <button className="py-2 px-4 text-right-lg font-bold" > {badge.BadgeName} </button>
             <p>Points: {badge.Points}</p>
-            <button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){console.log("Delete")}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button>
-            </li>)}
-        </ol>
+            {/* <button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){console.log("Delete")}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button> */}
+            </li>
+        </ol>))}
         </div>
     
     )

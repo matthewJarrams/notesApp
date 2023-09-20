@@ -56,7 +56,7 @@ const StudentList = () => {
       {
         console.log(stuJSON)
       }
-    navigate(`/studentProfile/${item._id}`);
+    navigate(`/studentAdmin/${item._id}`);
 
   };
 
@@ -91,7 +91,7 @@ const StudentList = () => {
         />
       </div>
       <br></br>
-    <table className="table-auto w-1/2 mx-auto divide-y divide-gray-100">
+    <table className="table-auto w-1/2 mx-auto divide-y divide-gray-100 ">
             <thead>
               <tr>
                 <th className="w-1/2 ...">Student Name</th>
@@ -101,11 +101,11 @@ const StudentList = () => {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-gray-100 [&>*:nth-child(even)]:bg-gray-100 [&>*:nth-child(odd)]:bg-gray-300">
             {notes && state.list && state.list.map((note) => (
               <tr>
                 <td className="text-left">{
-                  <Link to={`/studentProfile/${note._id}`} onClick={() => handleClick(note)}>
+                  <Link to={`/studentAdmin/${note._id}`} onClick={() => handleClick(note)}>
                     {note.StudentName}
                   </Link>
 
