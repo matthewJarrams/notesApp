@@ -6,7 +6,7 @@ const { response } = require("express");
 const { verifyJWT } = require('../apiCommands/userFunctions')
 
 
-const {getBelts, addBelt, addStudent, makeNote, getStudent, deleteNote, getStudents, updateStudent, addBadge} = require('../apiCommands/noteFunctions')
+const {getBelts, addBelt, addStudent, makeNote, getStudent, deleteNote, getStudents, updateStudent, addBadge, getBadges} = require('../apiCommands/noteFunctions')
 
 const router = express.Router()
 
@@ -15,6 +15,8 @@ const router = express.Router()
 
 // //test route for getting user who is logged in
 router.get('/getBelts',verifyJWT, getBelts);
+
+router.get('/getBadges', verifyJWT, getBadges);
 
 router.get('/allStudents', verifyJWT, getStudents);
 

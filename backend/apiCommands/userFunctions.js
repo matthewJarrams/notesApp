@@ -145,11 +145,18 @@ const getProfile = async (req, res) => {
   res.status(200).json(user);
 };
 
+const getSenseis = async (req, res) => {
+  const users = await db.Sensei.find({ })
+
+  res.status(200).json(users);
+};
+
 
 
 module.exports = {
     registerUser,
     loginUser,
     verifyJWT,
-    getProfile
+    getProfile,
+    getSenseis,
 };
