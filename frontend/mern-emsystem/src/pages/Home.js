@@ -40,9 +40,15 @@ const Home = () => {
   const data = JSON.parse(localStorage.getItem("userData"));
   console.log(data)
 
+
+
   // while(auth.token == false);
   useEffect(() => {
+
     const fetchNotes = async () => {
+
+      try
+      {
       const response = await fetch(`http://localhost:5000/notes/allStudents`, {
         headers: {
           "x-access-token": data.token,
@@ -59,6 +65,12 @@ const Home = () => {
       });
       }
     }
+  
+  catch
+  {
+    navigate('/login')
+  }
+}
     fetchNotes()
 
   }, [])

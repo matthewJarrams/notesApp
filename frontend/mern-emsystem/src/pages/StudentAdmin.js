@@ -35,6 +35,9 @@ const StudentAdmin = () => {
     
     useEffect(() => {
         const fetchStudent = async () => {
+
+          try
+          {
         const response = await fetch(`http://localhost:5000/notes/${id}`, {
             headers: {
               "x-access-token": data.token,
@@ -51,9 +54,17 @@ const StudentAdmin = () => {
 
         }
         }
+        catch
+        {
+          navigate('/login')
+        }
+      }
         fetchStudent()
 
         const fetchBelts = async () => {
+
+          try
+          {
             const response = await fetch(`http://localhost:5000/notes/getBelts`, {
                 headers: {
                   "x-access-token": data.token,
@@ -75,8 +86,13 @@ const StudentAdmin = () => {
                 // console.log(beltsFiltered)
             }
         }
-        
+        catch
+        {
+          navigate('/login')
+        }
+      }
         fetchBelts();
+      
 
 
     }, []);

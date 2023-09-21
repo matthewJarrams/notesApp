@@ -34,6 +34,13 @@ const DojoAdmin = () => {
     const data = JSON.parse(localStorage.getItem("userData"));
     console.log(data);
 
+    useEffect(() => {
+        if(data);
+        else
+        {
+            navigate('/login');
+        }
+    }, [])
 
     const [Curriculum, setCurriculum] = useState("Impact");
     const [StudentName, setName] = useState("");
@@ -44,6 +51,7 @@ const DojoAdmin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
+    const [serverError, setServerError] = useState(false);
 
     const [BadgeName, setBadgeName] = useState("");
     const [badgePoints, setBadgePoints] = useState(0);
@@ -137,19 +145,29 @@ const DojoAdmin = () => {
 
             if(response.ok)
             {
-            console.log(json)
-            setSenseiPopup(false);
+                console.log(json)
+
+                setError(false);
+                if(json.validReg == false)
+                {
+                    setServerError(true);
+                }
+                else
+                {
+                    setSenseiPopup(false);
+                    setUsername("");
+                    setSenseiName("");
+                    setPassword("");
+                    setServerError(false);
+
+                }
+
             }
             else
             {
-            console.log("error")
+                console.log("error");
             }
-            setUsername("");
-            setSenseiName("");
-            setPassword("");
-            setError(false);
-            setSenseiPopup(false);
-
+            
         }
 
   
@@ -489,6 +507,7 @@ const DojoAdmin = () => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                 {error && <p className="text-red-500 border-2 border-black px-2 py-1 bg-slate-200">Input Error: Please make sure all fields are filled in</p>}
+                {serverError && <p className="text-red-500 border-2 border-black px-2 py-1 bg-slate-200">Username already in use</p>}
 
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 

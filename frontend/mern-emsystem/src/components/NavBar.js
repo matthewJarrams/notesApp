@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from './logo.png';
@@ -22,7 +22,24 @@ function classNames(...classes) {
 
 const NavBar = () => {
     const [current, setCurrent] = useState("Home");
+    const [show, setShow] = useState(false);
     const navigate = useNavigate();
+
+
+    const data = JSON.parse(localStorage.getItem("userData"));
+    
+
+
+    useEffect(() => {
+        if(data)
+        {
+            setShow(true);
+        }
+        else
+        {
+            setShow(false);
+        }
+    }, [data])
 
 
     const changeCurrent = async (e, item) =>
@@ -47,7 +64,10 @@ const NavBar = () => {
 
     return (
         <header>
+            
             <div className="text-gray-500">
+
+            {show &&
                 <Disclosure as="nav" className="bg-gray-800">
                     {({ open }) => (
                         <>
@@ -187,6 +207,7 @@ const NavBar = () => {
                         </>
                     )}
                     </Disclosure>
+            }
             </div>
         </header>
     )

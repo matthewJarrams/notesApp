@@ -23,6 +23,7 @@ const registerUser = async (req, res) => {
   if (userInDb != null) {
     res.json({ validReg: false });
     console.log("Caught");
+
   } else {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
 

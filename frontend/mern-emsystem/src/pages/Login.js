@@ -67,6 +67,12 @@ const Login = () => {
 <div class="flex justify-center">
 
 <div class="w-full max-w-xs">
+  <br></br>
+  <br></br>
+  <div className="bg-blue-500 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <h1 className="font-bold text-lg px-8 pt-6 pb-8 mb-4">Code Ninjas MardaLoop Notes App</h1>
+  <h2 className="font-bold ">Homemade!</h2>
+  </div>
 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
   <div class="mb-4">
     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">

@@ -59,6 +59,15 @@ const DataLists = () => {
 //     });
 //     console.log(results)
 //   }
+
+
+useEffect(() => {
+    if(data);
+    else
+    {
+        navigate('/login');
+    }
+}, [])
     
     const getBelts = async (e) => 
     {

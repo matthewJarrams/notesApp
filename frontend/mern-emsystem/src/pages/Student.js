@@ -74,23 +74,41 @@ const Student = () => {
 
     useEffect(() => {
         const fetchStudent = async () => {
-        const response = await fetch(`http://localhost:5000/notes/${id}`, {
-            headers: {
-              "x-access-token": data.token,
-            }
-          });
-        const json = await response.json();
 
-        if(response.ok)
-        {
-            setStudent(json)
-            console.log(json)
+          try
+          {
+          const response = await fetch(`http://localhost:5000/notes/${id}`, {
+              headers: {
+                "x-access-token": data.token,
+              }
+            });
+          const json = await response.json();
 
+          if(response.ok)
+          {
+              setStudent(json)
+              console.log(json)
+
+          }
+          
         }
+        catch
+        {
+          navigate('/login')
         }
         fetchStudent()
+      }
 
     }, [newNote, deleted])
+
+    useEffect(() => {
+      if(data);
+      else
+      {
+        navigate('/login')
+      }
+
+  }, [])
 
     const handleSubmit = async (e) => 
     {

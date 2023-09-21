@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, Navigate} from 'react';
 import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import Student from './pages/Student';
@@ -18,6 +18,17 @@ function App() {
   const [name, setName] = useState(false);
   const [expirationDate, setExpirationDate] = useState(false);
   const [userId, setUserId] = useState(false);
+  const[loggedIn, setLoggedIn] = useState(false);
+  const data = JSON.parse(localStorage.getItem("userData"));
+  // console.log(data)
+  // if(data.token == null)
+  {
+    // setLoggedIn(false);
+  }
+  // else
+  {
+    // setLoggedIn(true);
+  }
 
   const login = useCallback((token, name, id, texpirationDate) => {
     setToken(token);
@@ -54,6 +65,9 @@ function App() {
     }
   }, [login]);
 
+
+  
+
   return (
     <AuthContext.Provider
     value={{
@@ -71,7 +85,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element ={<Home />}
+              element={<Home/>}
             />
             <Route 
               path="/login" 
