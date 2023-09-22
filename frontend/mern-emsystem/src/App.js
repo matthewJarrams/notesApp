@@ -20,6 +20,7 @@ function App() {
   const [userId, setUserId] = useState(false);
   const[loggedIn, setLoggedIn] = useState(false);
   const data = JSON.parse(localStorage.getItem("userData"));
+
   // console.log(data)
   // if(data.token == null)
   {
@@ -46,6 +47,15 @@ function App() {
         expiration: tokenExpiration.toISOString(),
       })
     );
+  }, []);
+
+  const logout = useCallback(() => {
+    window.location.replace("/login");
+    setToken(null);
+    setName(null);
+    setUserId(null);
+    setExpirationDate(null);
+    localStorage.removeItem("userData");
   }, []);
 
   useEffect(() => {
@@ -76,6 +86,7 @@ function App() {
       name: name,
       userId: userId,
       login: login,
+      logout: logout,
     }}
   >
     <div className="App">

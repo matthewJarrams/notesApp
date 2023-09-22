@@ -1,7 +1,7 @@
 const express = require('express')
 // const upload = require("../utils/multer.js");
 
-const {registerUser, loginUser, verifyJWT, getProfile, getSenseis} = require('../apiCommands/userFunctions')
+const {registerUser, loginUser, verifyJWT, getProfile, getSenseis, updateSensei} = require('../apiCommands/userFunctions')
 
 const router = express.Router()
 
@@ -14,6 +14,8 @@ router.post('/register',registerUser)
 router.post('/login', loginUser)
 
 router.get('/getUsers', verifyJWT, getSenseis);
+
+router.patch('/updateUser/:id', verifyJWT, updateSensei)
 
 
 // test route for getting user who is logged in

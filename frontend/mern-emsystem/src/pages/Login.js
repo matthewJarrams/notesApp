@@ -13,6 +13,7 @@ const Login = () => {
     const [password, setPassword]= useState('');
     const navigate = useNavigate();
     const auth = useContext(AuthContext);
+    const [incorrect, setIncorrectLogin] = useState(false);
 
 
 
@@ -45,8 +46,13 @@ const Login = () => {
             // auth.username = username;
             // auth.isLoggedIn = true;
             // auth.userId = id;
-            console.log(auth, json.token)
+            console.log(auth, json.token);
+            setIncorrectLogin(false);
             navigate('/');
+        }
+        else
+        {
+          setIncorrectLogin(true);
         }
     }
 
@@ -72,7 +78,13 @@ const Login = () => {
   <div className="bg-blue-500 shadow-md rounded px-8 pt-6 pb-8 mb-4">
   <h1 className="font-bold text-lg px-8 pt-6 pb-8 mb-4">Code Ninjas MardaLoop Notes App</h1>
   <h2 className="font-bold ">Homemade!</h2>
+</div>
+{incorrect && 
+  <div className="relative p-6 flex-auto">
+    <p className="text-red-500 border-2 border-black px-2 py-1 bg-slate-200">Incorrect Login: Please make sure your username and password are correct</p>
   </div>
+}
+
 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
   <div class="mb-4">
     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">

@@ -96,8 +96,9 @@ const Student = () => {
         {
           navigate('/login')
         }
-        fetchStudent()
       }
+        fetchStudent()
+      
 
     }, [newNote, deleted])
 

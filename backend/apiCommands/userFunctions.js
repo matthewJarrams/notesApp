@@ -33,6 +33,7 @@ const registerUser = async (req, res) => {
       name: name,
       username: username,
       password: req.body.password,
+      active: true,
     });
 
     newUser.save();
@@ -55,6 +56,14 @@ const loginUser = async (req, res) => {
             message: "Incorrect Username",
             login: false,
         });
+    }
+    else if(loginAttempt.active == false)
+    {
+      console.log("Not active");
+      res.json({
+        message: "No longer active user",
+        login: false,
+    });
     } 
     else{
         // console.log(checkLoginAttempt(loginAttempt, loginAttempt.id, loginAttempt.username, loginAttempt.password, username, password));
@@ -152,6 +161,25 @@ const getSenseis = async (req, res) => {
   res.status(200).json(users);
 };
 
+const updateSensei = async (req, res) => 
+{
+    const { id } = req.params;
+    // console.log(id);
+    console.log(req.body)
+    const userToUpdate = await db.Sensei.findOneAndUpdate(
+        { _id: id },
+        {
+          ...req.body,
+        }
+      );
+      if (!userToUpdate) {
+        return res.status(400).json({ error: "No such Sensei" });
+      }
+  
+      const user = await db.Sensei.findOne({ _id: id });
+  
+      res.status(200).json(user);
+}
 
 
 module.exports = {
@@ -160,4 +188,5 @@ module.exports = {
     verifyJWT,
     getProfile,
     getSenseis,
+    updateSensei,
 };
