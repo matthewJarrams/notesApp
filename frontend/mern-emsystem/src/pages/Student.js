@@ -210,7 +210,7 @@ const Student = () => {
               <tr>
                 <th className="w-1/2 ...">Game</th>
                 <th className="w-1/2 ...">Comment</th>
-                <th className ="w-1/2 ...">Sensi</th>
+                <th className ="w-1/2 ...">Sensei</th>
                 <th className="w-1/2 ...">Date</th>
                 
               </tr>

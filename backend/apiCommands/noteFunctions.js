@@ -130,7 +130,7 @@ const getStudent = async (req,res) => {
       if (numStudents > 0) {
         const student = await db.Student.findById({ _id: studentID })
           .populate("Notes")
-          .populate({ path: "Notes", populate: "senseiID" })
+          .populate({ path: "Notes", populate: "senseiID" , options : { sort: { createdAt: -1 } }})
           .populate("beltId");
 
         // console.log(student.Notes[0].senseiID.name)
