@@ -2,90 +2,42 @@ import { useEffect, useState, useContext } from "react"
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../context/authContext";
-
+import { collection, getDocs, query, orderBy, limit, doc } from "firebase/firestore"; 
+import { db } from "../firebase";
 
 
 const StudentList = () => {
+	
+	const [students, setStudents] = useState([])
+	const handleClick = (note) => {
+		console.log(note)
+	};
+	const handleSearch = (e) => {
+	};
 
-  const [notes, setNotes] = useState(null);
-  const [state, setstate] = useState({
-    query: '',
-    list: []
-  })
+	useEffect(() => {
 
-  const navigate = useNavigate();
-  const auth = useContext(AuthContext);
-  console.log(auth)
-  const data = JSON.parse(localStorage.getItem("userData"));
-  console.log(data)
+		const getStudents = async () => {
 
-  // while(auth.token == false);
-  useEffect(() => {
+      const studentsRef = collection(db, "Students");
 
-
-
-    const fetchNotes = async () => {
-
-    try
-    {
-      const response = await fetch(`http://localhost:5000/notes/allStudents`, {
-        headers: {
-          "x-access-token": data.token,
-        }
+      const q = query(studentsRef, orderBy("FirstName"));
+      const querySnapshot = await getDocs(q);
+      let students = [];
+      querySnapshot.forEach((doc) => {
+        var student = doc.data();
+        student.id = doc.id;
+        console.log(student);
+        students.push(student);
+        
       });
-      const json = await response.json();
 
-      if(response.ok)
-      {
-        setNotes(json);
-        setstate({
-          query: "",
-          list: json
-      });
-      }
-    }
-    catch
-    {
-        navigate('/login');
-    }
-}
-    fetchNotes()
+			setStudents(students);
+		};
+		getStudents();
 
-  }, [])
+	}, []);
 
-  const handleClick = async (item) => {
-    // e.preventDefault();
-    console.log(item._id, "You were clicked!")
-
-    const getStudentTest =  await fetch(`http://localhost:5000/notes/${item._id}`, {
-      headers: {
-        "x-access-token": auth.token,
-      }
-    });
-    const stuJSON = await getStudentTest.json();
-      if(getStudentTest.ok)
-      {
-        console.log(stuJSON)
-      }
-    navigate(`/studentAdmin/${item._id}`);
-
-  };
-
-  const handleSearch = (e) => 
-  {
-    e.preventDefault();
-    console.log(e.target.value);
-    const results = notes.filter(note => {
-      if (e.target.value === "") return notes
-      return note.StudentName.toLowerCase().startsWith(e.target.value.toLowerCase())
-    })
-    setstate({
-        query: e.target.value,
-        list: results
-    });
-    console.log(results)
-  }
-  
 
   return (
     <div>
@@ -94,12 +46,7 @@ const StudentList = () => {
         <br></br>
       <div>
 
-      <input
-        type="search"
-        placeholder="Search here"
-        onChange={handleSearch}
-        value={state.query}
-        />
+
       </div>
       <br></br>
     <table className="table-auto w-1/2 mx-auto divide-y divide-gray-100 ">
@@ -113,16 +60,18 @@ const StudentList = () => {
             </thead>
 
             <tbody className="divide-y divide-gray-100 [&>*:nth-child(even)]:bg-gray-100 [&>*:nth-child(odd)]:bg-gray-300">
-            {notes && state.list && state.list.map((note) => (
+            {students.map((note) => (
               <tr>
                 <td className="text-left">{
-                  <Link to={`/studentAdmin/${note._id}`} onClick={() => handleClick(note)}>
-                    {note.StudentName}
+					// note.FirstName + " " + note.LastName
+                  <Link to={`/studentProfile/${note.id}`} onClick={() => handleClick(note)}>
+                    {note.FirstName} {note.LastName}
                   </Link>
 
                 }</td>
-                <td className="text-left">{note.beltId.Colour}</td>
-                <td className="text-left">{note.Points}</td>
+                <td className="text-left">{note.Belt}</td>
+                <td className="text-center">{note.Points}</td>
+                
                 <td><button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){console.log("Delete")}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button></td>
               </tr>
             ))}
