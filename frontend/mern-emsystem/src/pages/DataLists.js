@@ -97,7 +97,7 @@ useEffect(() => {
   return (
     <div>
         <br></br>
-        <h1>Data Lists</h1>
+        <h1 className="text-xl">Data Lists</h1>
         <p>Edit and View Site Content</p>
 
         <br></br>

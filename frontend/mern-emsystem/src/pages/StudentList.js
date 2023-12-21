@@ -67,7 +67,7 @@ const StudentList = () => {
       {
         console.log(stuJSON)
       }
-    navigate(`/studentAdmin/${item._id}`);
+    navigate(`/studentProfile/${item._id}`);
 
   };
 
@@ -90,7 +90,7 @@ const StudentList = () => {
   return (
     <div>
         <br></br>
-        <h1>Student List</h1>
+        <h1 className="text-xl">Student List</h1>
         <br></br>
       <div>
 

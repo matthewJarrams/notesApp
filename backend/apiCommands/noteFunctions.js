@@ -199,6 +199,182 @@ const getStudent = async (req,res) => {
           res.status(200).json(student);
     }
     
+    const http = require('http');
+const PORT = 3000;
+
+// const server = http.createServer((req, res) => {
+//     res.statusCode = 200;
+//     res.setHeader('Content-Type', 'text/plain');
+//     res.end('Hello World');
+// });
+
+// server.listen(PORT, () => {
+//     console.log(`Server running at PORT:${PORT}/`);
+// });
+
+const getTodayStudents = async (req,res) => {
+
+
+    const respTok = await fetch("https://cn.mystudio.io/Api/v2/generateStudioAttendanceToken", {
+        "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "en-US,en;q=0.8",
+            "access-control-allow-origin": "*",
+            "content-type": "application/json; charset=UTF-8",
+            "sec-ch-ua": "\"Brave\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "sec-gpc": "1",
+            "cookie": "PHPSESSID=00jj72hftcap33avu9fe4s4udh",
+            "Referer": "https://cn.mystudio.io/attendance/#/classesprogram",
+            "Referrer-Policy": "strict-origin-when-cross-origin"
+        },
+        "body": "{\"company_id\":\"296\",\"email\":\"matthew.jarrams@gmail.com\",\"from_page\":\"attendance\"}",
+        "method": "POST"
+    });
+
+    login = await respTok.json()
+    console.log(login.msg)
+
+    var todayDate = new Date();
+    var month = todayDate.getMonth() + 1
+    // console.log(month)
+    var todayString = todayDate.getFullYear().toString() + "-" + month + "-" + todayDate.getDate().toString()
+    console.log(todayString)
+
+    const resp = await fetch("https://cn.mystudio.io/Api/v2/getAllClassList", {
+        "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "en-US,en;q=0.8",
+            "access-control-allow-origin": "*",
+            "content-type": "application/json; charset=UTF-8",
+            "sec-ch-ua": "\"Brave\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "sec-gpc": "1",
+            "cookie": "PHPSESSID=00jj72hftcap33avu9fe4s4udh",
+            "Referer": "https://cn.mystudio.io/attendance/",
+            "Referrer-Policy": "strict-origin-when-cross-origin"
+        },
+        "body": "{\"company_id\":\"296\",\"token\":\"" + login.msg + "\",\"email\":\"matthew.jarrams@gmail.com\",\"user_login_type\":\"\",\"from\":\"attendance\",\"from_page\":\"attendance\",\"current_date\":\"" + todayString + "\",\"student_view\":\"Y\"}",
+        "method": "POST"
+    });
+
+    classes = await resp.json()
+    console.log(classes.class_details)
+    timeIds = []
+    appointmentIds = []
+    classTimes = []
+
+    for (let i = 0; i < classes.class_details.length; i++) {
+        timeIds.push(classes.class_details[i].class_appointment_times_id)
+        appointmentIds.push(classes.class_details[i].class_appointment_occurrence_id)
+        classTimes.push(classes.class_details[i].start_time)
+
+    }
+    console.log(timeIds)
+    todayStudents = {students: [], classes: []}
+    todayStudents.classes = classTimes
+
+    for (let time = 0; time < timeIds.length; time++) {
+        console.log(timeIds[time])
+        const resp2 = await fetch("https://cn.mystudio.io/Api/v2/getAllParticipantsBasedOnSelectedClass", {
+            "headers": {
+                "accept": "application/json, text/plain, */*",
+                "accept-language": "en-US,en;q=0.8",
+                "access-control-allow-origin": "*",
+                "content-type": "application/json; charset=UTF-8",
+                "sec-ch-ua": "\"Brave\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": "\"Windows\"",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-origin",
+                "sec-gpc": "1",
+                "cookie": "PHPSESSID=00jj72hftcap33avu9fe4s4udh",
+                "Referer": "https://cn.mystudio.io/attendance/",
+                "Referrer-Policy": "strict-origin-when-cross-origin"
+            },
+            "body": "{\"company_id\":\"296\",\"token\":\"" + login.msg + "\",\"email\":\"matthew.jarrams@gmail.com\",\"user_login_type\":\"\",\"from\":\"attendance\",\"from_page\":\"attendance\",\"program_date\":\"" + todayString + "\",\"class_appointment_id\":\"5682\",\"class_appointment_times_id\":\"" + timeIds[time] + "\",\"class_appointment_occurrence_id\":\"" + appointmentIds[time] + "\",\"search_value\":\"\",\"drop_in_flag\":\"N\",\"attendance_date_time\":\"\"}",
+            "method": "POST"
+        });
+
+
+        let s = await resp2.json();
+        let students = s.student_detail
+        letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        // console.log(students['B'][0].participant_full_name)
+        for (let i = 0; i < letters.length; i++) {
+            if (students[letters[i]][0] != undefined) {
+                for (let j = 0; j < students[letters[i]].length; j++) {
+                    console.log(students[letters[i]][j].participant_full_name)
+                    var name = students[letters[i]][j].participant_full_name.replace(/,/g, "")
+                    // todayStudents.students.push(students[letters[i]][j].participant_full_name)
+                    todayStudents.students.push({name, time})
+                }
+            }
+        }
+    }
+    res.status(200).json(todayStudents)
+}
+
+const getRecentNotes = async (req,res) => {
+
+  let fortnightAgo = new Date(Date.now() - 12096e5);
+  const numNotes = await db.Note.countDocuments({})
+    if (numNotes > 0) {
+      const note = await db.Note.find({ createdAt: {$gte: fortnightAgo}} ).sort({createdAt: -1})
+        .populate("studentID")
+        .populate("senseiID")
+        // .populate("beltId");
+
+      // console.log(student.Notes[0].senseiID.name)
+      recentNotes = {notes: []};
+      for(let i = 0; i < note.length; i++)
+      {
+        recentNotes.notes.push(note[i])
+      }
+      if(note != null)
+      {
+        res.status(200).json(recentNotes);
+      }
+    } else {
+      return res.status(400).json({ error: "No such post" });
+    }
+  
+};
+
+
+const getStudentByName = async (req,res) => {
+  const { studentName } = req.params;
+  // const numStudents = await db.Student.countDocuments({ StudentName: studentName })
+    // if (numStudents > 0) {
+      const student = await db.Student.findOne({ StudentName: studentName })
+        .populate("Notes")
+        .populate({ path: "Notes", populate: "senseiID" , options : { sort: { createdAt: -1 } }})
+        .populate("beltId");
+
+      console.log(student)
+
+      res.status(200).json(student);
+    // } else {
+      // return res.status(400).json({ error: "No such post" });
+    // }
+  
+};
+
+
+
+
+
+
+
 
 
 
@@ -213,5 +389,8 @@ module.exports = {
     updateStudent,
     addBadge,
     getBadges,
+    getTodayStudents,
+    getRecentNotes,
+    getStudentByName
     
   };
