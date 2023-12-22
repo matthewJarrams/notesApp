@@ -188,10 +188,14 @@ const fetchStudents = async () => {
   return (
     <div>
       <br></br>
+      <div className="flex justify-center items-center">
+      <h1 className="text-xl  font-bold  px-10 py-5 bg-[#187abf]">Code Ninjas Marda Loop Notes App</h1>
+      </div>
+      <br></br>
       <h2 className="text-xl font-semibold">Today's Students</h2>
       <br></br>
   <div className="flex justify-center items-center">
-  <div class="grid grid-cols-4 gap-4 border-4 border-gray-950 py-2	">
+  <div class="grid grid-cols-4 gap-4 border-4 border-gray-950 py-2 px-2	">
   {todayStudent && state.list && todayStudent.students.map((student) => (
 
   <div className="flex justify-center items-center  border-2 border-grey-350">

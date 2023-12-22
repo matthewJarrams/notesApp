@@ -273,9 +273,12 @@ const getTodayStudents = async (req,res) => {
     classTimes = []
 
     for (let i = 0; i < classes.class_details.length; i++) {
+      if(classes.class_details[i].class_appointment_title == "CREATE")
+      {
         timeIds.push(classes.class_details[i].class_appointment_times_id)
         appointmentIds.push(classes.class_details[i].class_appointment_occurrence_id)
         classTimes.push(classes.class_details[i].start_time)
+      }
 
     }
     console.log(timeIds)
@@ -315,12 +318,23 @@ const getTodayStudents = async (req,res) => {
                 for (let j = 0; j < students[letters[i]].length; j++) {
                     console.log(students[letters[i]][j].participant_full_name)
                     var name = students[letters[i]][j].participant_full_name.replace(/,/g, "")
-                    // todayStudents.students.push(students[letters[i]][j].participant_full_name)
-                    todayStudents.students.push({name, time})
+                    duplicate = false
+                    for(let stu = 0; stu < todayStudents.students.length; stu++)
+                    {
+                      if(todayStudents.students[stu].name == name)
+                      {
+                        duplicate = true
+                      }
+                    }
+                    if(!duplicate)
+                    {
+                      todayStudents.students.push({name, time})
+                    }
                 }
             }
         }
     }
+
     res.status(200).json(todayStudents)
 }
 

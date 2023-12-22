@@ -290,7 +290,7 @@ const DojoAdmin = () => {
   return (
     <div className="home">
         <br></br>
-        <h1>Dojo Admin Options</h1>
+        <h1 className="text-xl font-semibold">Dojo Admin Options</h1>
         <br></br>
         <button class="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={studentPopup}>
             Add New Student

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import { format } from 'date-fns';
+import toast, {Toaster} from 'react-hot-toast'
+
 
 
 
@@ -19,6 +21,10 @@ const Student = () => {
 
     const [error, setError] = useState(false);
 
+    const [posted, setPosted] = useState(null);
+    const [removeNote, setRemove] = useState(null);
+
+
     const navigate = useNavigate();
     const location = useLocation();
     const auth = useContext(AuthContext);
@@ -32,6 +38,33 @@ const Student = () => {
     const pathname = location.pathname.slice(1)
     const id = pathname.split('/')[1]
     console.log(id);
+
+  const notify = () =>
+    toast.custom(
+      (t) => (
+        <div>
+        {posted && <div dir="ltr"className=" bg-[#39FF14] absolute top-20 right-10 h-20 w-64">
+          
+            <div>
+              <h1 className="px-5 py-2">Success</h1>
+              <p>
+                Note Posted!
+              </p>
+          </div>
+
+        </div>}
+        {removeNote && <div dir="ltr"className=" bg-[#FF0000] absolute top-20 right-10 h-20 w-64">
+          <div>
+            <h1 className="px-5 py-2">Success</h1>
+            <p>
+              Note Deleted!
+            </p>
+        </div>
+        </div>}
+        </div>
+      ),
+      { id: "unique-notification", position: "top-center" }
+    );
 
 
 
@@ -49,11 +82,12 @@ const Student = () => {
         {
             console.log("here")
             setGame('Default');
+
             if(deleted)
             {
-                console.log(deleted)
-                setDelete(false);
-                console.log(deleted)
+              console.log(deleted)
+              setDelete(false);
+              console.log(deleted)
 
             }
             else
@@ -114,6 +148,7 @@ const Student = () => {
     const handleSubmit = async (e) => 
     {
         e.preventDefault();
+        
         console.log(game, comment);
         if(game == '')
         {
@@ -143,11 +178,14 @@ const Student = () => {
             if (response.ok) {
               if(newNote)
               {
+                
+                
                   setNewNote(false);
               }
               else
               {
                   setNewNote(true)
+
               }
               setGame('Default');
               setComment('');
@@ -168,6 +206,7 @@ const Student = () => {
   
   return (
     <div className="home">
+      <Toaster />
       <div>
         <p className="inline-block whitespace-nowrap text-xl">
           {student && student.StudentName}
@@ -223,7 +262,13 @@ const Student = () => {
                 <td className="text-left ">{note.comment}</td>
                 <td className="text-left px-5">{note.senseiID.name}</td>
                 <td className="text-left whitespace-nowrap px-5">{format(new Date(note.createdAt), "MMMM dd', 'yyyy")}</td>
-                <td><button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button></td>
+                {/* <td><button onClick={() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}} className=" bg-red-400 py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm ">Delete</button></td> */}
+                <td><button className=" py-2 px-4 rounded text-center hover:bg-red-800 hover:text-red-50 cursor-pointer shadow-sm " onClick= {() => {if(window.confirm("Are you sure you want to delete this note?")){deleteNote(student, note)}}}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
+                    <path   strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                  </svg>
+                </button>
+                </td>
               </tr>
             ))}
             </tbody>
